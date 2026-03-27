@@ -1,0 +1,4330 @@
+Purdue_Daily_work2026
+https://github.com/dhruvikp/PURDUE_Jan2026
+
+
+CREATING E2E program at the end (contains nodejs, express, cypress everything)
+	communicate with DB (mysql)
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/27/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+Types of API based on Availability
+	- Web APIs
+	- Database APIs
+	- Composite APIs
+
+
+Postman 
+Implementation - Github public API fetch profile info
+
+Open AI 
+	
+Multi processing with Node Cluster - impl
+
+Update, Login/Logout implementaiton
+
+--------------
+Web API
+	
+	An API that can be accesible over internet using HTTP/HTTPs
+
+	Client(Browser/Mobile) --> web API endpiont (/api/expenses) --> Server processing --> Response (XML/JSON) --> client
+
+
+	Ex:
+	REST API
+	SOAP API
+	GRPAHQL API
+
+
+Database APIs
+	interface that allows applications to interact with database (read, write, update, delete data)
+
+
+	Without using DATABASE API:
+
+		App -> Raw SQL -> Database
+
+	With Database API
+	APp -> Database API -> Database
+
+
+Purpose:
+	- Simplifies DB Interaction
+	- Improves scalability
+	= Abstract away SQL complexity
+
+
+Types of DB apis
+1. Low level APIs (Direct queries)
+
+	db.query("SELECT * from Expenses")
+
+2. ORM (Object Relational Mapping)
+
+	Maps DB tables => Object
+
+	Ex: 
+		Sequenlize (Node js)
+		Hibernate (JAVA)
+
+		save(obj)
+
+3. Query Builders
+	Knex.js
+
+	knex("expenses").select(*)
+
+
+	Flexible
+	safer than raw sql
+
+
+Advantage:
+1. Abstract away DB handling
+2. Security
+3. Manitainability 
+4. Reusability
+
+Disadvantage:
+	1. Performance overhead
+	2. Learning curve
+
+
+Composite APIs
+	API that combine multiple operations or services into a single request.
+
+
+	Client -> Composite API endpoint -> calls multiple services internally --> Combines results --> Returns single response.
+
+
+
+Postman
+	Tool to design, build, test and manage APIs
+
+	WHy Postman is used?
+
+		- Testing before frontend is ready
+		- No code API intereraction
+		- Automation and reliability
+		- Envieronment management
+		- Automatic documentation 
+
+
+
+	Open AI
+		Provides AI models via APIs
+
+	These models:
+		- Generate Text (ChatGPT)
+		- Write code
+		- Summarize content
+		- Answer Questions
+		- Generate images
+		- Analyse data
+
+	GPT models (ChatGPT)
+
+
+Practical use cases:
+	Customer support bot
+	- Resume analyzer
+	- Financial Assistatnt
+	- Auto content generator
+
+
+	npm install openai
+
+	import OpenAI from "openai";
+
+
+	const openAI = new OpenAI({
+		apiKey: "YOUR_SECRET"
+	});
+
+
+	const response = await openai.responses.(create)({
+		model: "gpt-4.1-mini",
+		input: "Explain nodejs in simpler terms"
+	});
+
+	console.log(response.output[0].content[0].text)
+
+	}
+
+
+Multiprocessing
+---------------
+	
+	By default, node.js is single threaded.
+
+	One thread -> Event loop -> handles all requests
+
+	Problem:
+		- CPI Heavy task blocks whole eventloop
+		Ex:
+			- Image processing
+			- Large calculations
+
+	Solution:
+		Multiprocessing
+
+		The solution is to run multiple processes in parallel.
+
+		Main process -> child process -> Parallel execution
+
+Built in module - 'child_process'
+
+	spawn - Used to run large processes or streaming data
+
+			- Returns stream (stdout, stderr)
+			- Efficient for large data
+
+	fork
+		A special mehtod for Nodejs processes
+
+		- Used for node scripts only
+		- Enable IPC (inter process communication)
+
+
+
+
+	exec
+		Runs commands in the shell
+
+		- Buffers entire output
+		- Simpler
+		- Not good for large data.
+
+		Usecase:
+			- small commands executions as separate process
+			- Quick scripts
+
+
+	execFile		
+		Runs an executable without a shell
+
+		- Faster than exec
+		- More secured
+
+		Usecase
+			- Running binary files
+			- Secure execution
+
+
+Node Cluster?
+	Cluster allows Nodejs to:
+		Use multiple CPU Cores by creating multiple processing (workers)
+
+		Cluster = Run multiple Nodejs processes to handle more load
+
+		1 cpu core -> 1 node process -> Limited performance
+
+		11 core CPU -> Node uses only 1 core
+
+		Remaining 7 core are wasted.
+
+
+		Solution?
+			1 master process
+
+				Multiple worker processes (per CPU core)
+
+
+				Each worker:
+					- Runs your app
+					- Handles requests
+
+		Master Process:
+			- Manage workers
+			- Distributes requests
+
+		Worker processes:
+			- Runs your server
+			- handle requets
+
+
+
+cooke-parser
+
+			process and popluate req.cookies --> with key-value pari
+
+
+npm install cookie-parser
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/26/2026
+--------------------------------------------------------------------------------------------------------------------------
+	E2E application- CRUD
+		Assisted practice: understand code and implemnet update operation
+
+	API Classification (Accessibility based, architecture based)
+
+
+
+API Fundamentals
+	mechanism that allows two systems to communicate and exchange data.
+
+
+Mobile App --> request data
+Backend API -> Sends data
+
+Request:
+	URL, Header, BOdy, Params
+
+	GET /api/expenses
+
+Advantage:
+	- Reusability
+		Same api can be consumed by Web, Mobile, or Third party application
+
+	- Scalability
+		Backend and frontend can scale independenty
+
+	- Seperation of concern
+
+
+Challenges:
+	- Security risks	
+		Needs protection (JWT, Oauth2..)
+			Authentication and authorizaton
+
+	- Complexity
+		Versions - /api/expense
+		Documentations -
+
+	- Latency
+		Network calls and delay
+
+
+Applications of API
+	Web & Mobile Apps
+
+
+Payment systems
+	Razorpay, stripe...
+
+
+Maps and Location
+	Google Map API
+
+Cloud Services
+	AWS APIs
+
+Enterprise communication
+	Microservice communicaiton
+
+
+API Classification
+
+Based on Open APIs (Public APIs)
+
+	- APIs that are available to everyone on the internet
+
+ Key characteristics:
+ 	- Publicly available
+ 	- Usually requires API key
+ 	- well documented
+
+ Weather api
+
+ 	GET /api/weather?city=Bangalore
+
+ Examples:
+ 	- Goole maps api
+ 	- payment gateways
+ 	- weather services
+
+
+ Razorpay
+ 	-> user can register them self
+ 		API Key - secretly
+
+ 	-> /payment --> 
+ 		with API key
+
+
+
+
+
+Internal APIs (Private APIs)
+	APIs used only inside an organization.
+
+	Internal APIs are used within a company to enable communication between internal systems.
+
+	clients             		Server
+	ReactJS Place order			POST /placeorder  Nodejs
+								order ms        inventory service.    paymentgateway service.     tracking service   notification service
+
+
+
+Characteristics:
+	- Not publicly exposed
+	- Used by internal teams/services
+	- More secure
+	- No public documentation is needed
+
+Partner API
+	API shared with specific external organization (partners) under controlled access.
+
+	Oauth2, JWT
+
+	Usecases
+		- Logistics 
+		- Payment gateway
+
+
+
+API based on its Architecture
+-------------------------------
+	
+	SOAP (Simple Object Access Protocol)
+		Built on top of HTTP Protocol
+		A protocol is used to exchange structured information between systems using XML
+
+	Strict , XML based, Protoco driven API
+
+	You will be
+
+	WSDL - Web Service Description Language
+
+
+		Defines:
+			- API structure
+			- Request/Response format
+			- Methods Available
+
+
+	client first create XML request
+	Send req to SOAP endpont
+	Server process reqeust
+	Returns XML response
+	client parse XML
+
+	Built-in security
+		WS-Security
+		Encrypted
+		Digital signature
+
+	Stateful architecture
+
+
+REST (Representative State Transfer)
+	HTTP based
+
+	Pricipal:
+		1. Resource based
+
+
+	Advantage:
+		1. Simple and easy
+		2. Lightweight
+		3. Scalable
+		4. Widely adopted in industry (microservice)
+		5. Flexible
+
+
+
+GraphQL
+	A query language for APIs where client decides what data it wants
+
+	Clinet controlled data fetching API
+
+	Incase of REST
+		Serer decides response structure
+
+
+	In case of GraphQL
+		Client decides response structure
+
+
+
+Concepts:
+ 1. Single endpont
+
+ 2. Query(Read data)
+   {
+   expenses {
+	   title
+	   amount
+	   }
+   }
+
+Clinet selects fields
+
+3. Write Mutation Data
+
+mutation {
+	addExpense(title: food, amoutn: 200){
+		id,
+		title
+	}
+}
+
+Advantage:
+	- No Over-fetching of data
+	- No Under fetching
+	- Single endpont
+	- Flexible for frontend
+	- Efficient for complex applications
+
+Disadvantage
+	- Complexity
+	- Performanceissues
+		Your complex queries can be very heavy
+
+	- Caching is difficult
+
+	
+
+--------------------------------------------------------------------------------------------------------------------------
+03/24/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+What is Express.js?
+ExpressJS architecture
+
+MVC Architecture understanding
+Hello world application of MVC
+Template Engine - Two views - Pug, EJS
+Example of using views
+Request handling and response Handling 
+Error handling
+
+-----
+What is ExpressJS?
+	Flexible web application framework for Node.js used to build API and web servers.
+
+	Leight weight 
+	Unopinionated ( you design architecture)
+
+Key Features of Express js
+	- No forced structure 
+	- You decide:
+		- Folder structure
+		- Design pataterns
+		- Library
+
+	Midleware - Based architecture
+
+	Everything is Middleware:
+		- Logging
+		- Authentications
+		- Validations
+		- business logic
+
+	Routing System
+		app.get('/users', handler)
+
+		Supports:
+			- Route parameters /users/:id
+			- Query params /users?userId =3
+
+	HTTP Utility Methods
+		Simplifies reqeust/response handling
+		req.params, req.body, req.query....
+
+	Extensibility	
+		MongoDB - 
+	 	Huge ecosystems - morgan, jsonwebtoken, cors, body-parser
+
+	 High perforance
+	 	Built on Node.js
+	 	Uses Event loop -> handles thousands of concurrent requests.
+
+
+MVC Architecture
+----------------
+
+	users/ GET
+	/users/ POST
+	/users/1 PUT
+
+
+Goal:
+	/hello
+
+	- Hello Dhruvik!
+
+/api --> helloRoutes
+
+/api/hello --> 
+
+
+app.js - configuration information (middleware, routes)
+server.js - startup (port, server)
+
+MVC
+Controller - all business logic (using routes to handle request)
+View - write your frontend logic (res.send())
+Router - all routes inforamation
+
+
+client request --> Routers --> parse json body --> call controller handler --> populate model --> return response
+
+
+Request Handler
+	A function  that receives request and send response.
+
+	(req, res, next) => {
+	}
+
+
+	api.get('/hello', (req, res) => {
+		res.send("hello world");
+	});
+
+client -> Express -> Request Handler
+
+
+req - represents incoming request (which is sent from the client)
+res - Response object what inforation you want to send back to the client
+next --> pass control to the next middleware
+
+business logic
+	user request /dashboard
+
+		Auth Middleware			Dahboard Middleware
+
+		check credentials			dashbaord logic
+
+
+
+
+Accessing Request Data:
+
+	req.params 			-- 			URL parameters
+
+		/user/5
+
+	Inline handler
+		app.get('/user/:id', (req, res)=> {
+			req.params.id --> how you get id from the url pattern
+		});
+
+
+
+	req.query - Fetch query parameters
+		/user?userName=Dhruvik&userDesignation=IT
+		req.query.userName
+		req.query.userDesignation
+
+	req.body (Request body)
+		app.use(express.json)
+		app.use(express.urlencoded({extended: true}))
+
+	req.files --> Used to access uploaded files
+		multer (most common)
+
+
+	 	app.post('/upload', (req, res) => {
+	 		req.files
+	 		res.send("File received")
+	 	})
+
+
+	 req.route --> Gives you information about matched route
+
+	 req.route.path --> /users/:id
+	 req.route.method --> {get : true}
+
+	 req.route.keys --> Route parameters metadata
+	 	[{name: 'id', optional: false}]
+
+	 req.route.regex -> Internal regex used to match the route
+
+	 req.route.params --> req.params
+
+	 req.cookies
+	 	cookie-parser
+	 	app.use(require('cookie-parser'))
+
+	 req.get --> used to read reqeust header
+	 	req.get('User-Agent')
+
+
+	 Advanced request properteis 
+	 req.stale --> Indicates whether the request is stale (cache is outdated)
+	 req.secure --> Checks if request is HTTPS
+
+	 	app.get('/secure', (req, res) => {
+
+	 		if(req.secure) {
+
+	 		} else {
+	 		res.send("not secure");
+	 		}
+
+	 	})
+
+	 req.subdomains --> Returns subdomains as an array
+	 req.xhr --> checks if request is made via AJAX?
+
+	 req.baseurl --> Returns base path of router
+	 req.ip --> client ip address
+	 req.ips --> List ips (beind proxy)
+
+
+Response Handler
+	send() --> Sends any type of response
+
+		What can be send?
+			String
+			HTML
+			Object
+
+
+		res.send({name: "Dhruvik"});	 
+
+
+		Automatically converted to JSON
+
+	res.json() 
+		Sends only JSON response
+
+		app.get("/json", (req, res) => {
+			res.json({message: "Hello JSON"})
+		});
+
+	res.status()
+
+	res.status(200).send("OK")
+
+		2xx
+		4xx - Bad request/auth/not found
+		5xx - Server error
+
+		ex: res.status(404).json({error: "Not Found"});
+
+
+	res.redirect()
+		Redirects client to another URL
+
+			app.get('/old', (req, res)=> {}) {
+				res.redirect(301, '/new')
+			}
+
+	res.render()
+		Renders the template (EJS/PUG)
+		
+			res.render('index', {name: 'Dhruvik'});
+
+
+
+
+How to handle view files/Template engine
+
+	1. Handling Static files in Express.js
+
+		Files served directly to browser:
+			- css
+			- JS
+			- images
+
+
+		Request -> check /public -> if file exist --> returns file
+		No controller needed
+
+	2. Handing dynamic response thorugh Template Engine(Pug, EJS)
+
+
+		pug
+
+	Nodemon - Tool that auto-restarts server when file change
+
+
+Error handling
+	
+
+Handling Syncrhonous Errors
+-----------------------	
+	Error Handling - Capturing failures and sending proper response
+
+	In Express, Error handling are handled via:
+		Error-handling middleware
+
+
+	Synatx: 
+		(err, req, res, next) => {
+
+		}
+
+	4 parameters ==> Tells express that this is error middleware
+
+	Ex.
+
+	app.use((err, req, res, next) => {
+		res.status(500).send(err.message)
+	})
+
+
+Express automatically catch sync erros
+	Throw error --> Express catches --> send to error middlewrae
+
+
+------------------
+Handling Asynchronous errors
+
+	Errors inside
+		- async/await
+		- Promises
+		- callbacks
+
+
+app.get('/async', async (req, res) => {
+	throw new Error("Async error");
+})
+
+NOT Caught errors automatically.
+
+
+Correct way (Manually next)
+	
+
+	app.get('/async', async (req, res, next) => {
+		try {
+			throw new Error("Async Error")
+		} catch(err) {
+			next(err)
+		}
+	})
+
+
+Better approach (Wrapper)
+
+const asyncHandler = fn => (req, res, next) => 
+	Promise.resolve(fn(req, res, next)).catch(next)
+
+
+app.get('/async', 
+	
+	asyncHandler( async (req, res) => {
+		throw new Error("Async Error")
+	} )
+
+)
+
+
+
+req -> middleware1 -> middleware2 -> route -> response
+req -> middleware1 -> ERROR --> skip normal middlware -> error middleware
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/18/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	Error Handling
+	Network fundamentals
+	Dynamic application with template engine undersanding
+	API Endpoints
+	Deploying application (Heroku and vercel)
+	How to debug application using VS Code?
+	Multiprocessing
+	Nodejs cluster
+
+
+Error Handling
+	Error handling is process of detecting, managing and responding to errors in an application without crashing them.
+
+	Types of errror:
+	
+	Syntax Error 	- wrong code
+	Runtime Error 	- file not found
+	Logical Error 	- Wrong calculation
+
+
+Without Error handling 	
+	- Application crashes
+	- Poor user experience
+	- May create Data inconsistency
+
+With Error handling
+	- Graceful failure
+	- Stable system.
+
+Techniques:
+Synchronous way
+	1. try...catch
+
+Asynchonous way
+	2. Callbacks
+
+		callback(error, result)
+
+		Callback chains problem
+			When multiple async operations depend on each other --> nested callbacks
+
+			Deep nesting
+			hard to read
+			hard to debug
+			hard to maintain
+
+		Problem: known as Callback Hell problem
+
+		Strategy to handle error:
+			1. Early return pattern
+				if(err) return early
+
+			2. Modular functions
+				function readFile1(cb) {..}
+				function readFile2(cb) {..}
+
+
+			3. Using async library (best for callbacks)
+
+				async.parallel(tasks, callback)
+
+			Execution - Parallel
+			Performance - Fast
+			Result order - maintained
+			Error handling - Stops on first error
+
+
+			async.series(tasks, callbacks)
+
+				Execution - Sequence
+				Dependency support - Yes
+				Slower than parallel
+				Error handling - Stops on error
+
+			Usecase
+				Fetch:
+					- userdata
+					- orders
+					- Notifications
+
+
+				Create order:
+					step 1: Validating user
+					step 2: Processing payment
+					step 3: Create order
+
+
+
+	3. Promises
+
+		new Promise( (resolve, reject) => {
+			// success -> resolve
+			// error -> reject
+		});
+
+
+
+	4. EventEmitter
+
+
+Network Fundamentals
+
+	client  server
+
+	Browser 		server
+
+	Basic flow:
+		client (browser) --> Internet protocols (HTTP) --> Server(Node js) --> Response back
+
+	Internet protocols?
+		A protocol is a set of rules that defines how data is trasmitted over a network.
+
+		Common Protocols:
+			HTTP/HTTPS 	-- Web communication
+			TCP 		-- Reliable Data Transfer
+			IP 			-- Addressing system
+			UDP 		-- Fast but unreliable transfer
+			DNS 		-- Domain -> IP Conversion
+
+	TCP/IP
+		Fundamental communication protocol suite used on the internet
+
+		Two parts:
+			1. IP
+				Responsible for addressing
+				Ensures data reach the currest destination
+
+			2. TCP
+				- Responsible for reliable data transfer
+				Ensures
+					- No data loss
+					- Correct order
+					- Error handling
+
+			Example,
+				you open google.com
+
+					DNS resolves IP
+
+					TCP Connection establishment
+
+					HTTP Request sent
+
+					Response received
+
+		Layers
+			Application Layer
+				HTTP, HTTPS, FTP, DNS
+
+			Transport Layer
+				TCP(Reliability)
+				UDP (fast)
+
+			Internet/Network layer
+				Uses IP protocol
+				REsponsible
+					- routing
+					IP addressing
+
+			Physical layer
+				Handles data transmission physical channel
+
+				Ethernet
+				WiFi
+
+80 - HTTP
+443 - HTTPS
+21  - FTP
+22  - SSH
+3000 - NodeJS apps
+
+0 - 65535
+
+0-1023 - Well-knwn ports
+
+1024 - 49151 - Used by applications
+	3306 - MySQL
+	5432 - PostGreSQL
+
+49152 - 65535
+	Used temporarily by clients
+
+
+
+
+ReactJs		--> Backend API
+				Return JSON data as response
+
+
+	Contract
+		/datashbaord
+
+		{
+			users: {
+				name:
+				address:
+				emaeil:
+			},
+			profile {
+
+			},
+			..
+			..
+		}
+
+
+
+
+Dynamic application
+
+	APIs
+		/users/ GET
+
+		/profile/ GET
+
+		/users/ POST
+
+		/users/1 PUT
+			Updte user with id 1
+
+		/users/1 DELETE
+			Delete user with id 1
+
+		/dashboard/
+
+			Correct data to populate your html
+
+			Data +Template Engine
+				populating data whenener there is a placeholder
+
+				Generate HTML output
+
+
+			--> Request --> <h1> Welcome john </h1>
+
+						--> <h1> Welcome <%= name %> </h1>
+
+						Data:
+							{
+								name: "John"
+							}
+
+		Advantage of Template Engine:
+		 1. Dynamic contnet rendering
+		 2. Code reusability
+		 3. Separation of concern
+		 	Backend code -> logic to fetch userdata 
+		 	Template -> Data --> to generate dynamic html 
+
+		 4.  Maintainability	
+		 	Change in UI one place --> reflects everywhere
+
+		 5. Faster development
+
+	Template Engines
+		EJS (Embedded JavaScript)
+			HTML + JavaScript inside <% %>
+
+			Simple
+			Similar to HTML
+			Easy to learn
+
+
+		Pug (Formaly Jade)
+			Indentation based synatax (no HTML tags)
+
+
+			h1 Welcome #{name}
+
+			Cleaner synatx
+			less code
+			faster writing
+
+		Mustache
+			Logic less template engine
+
+			{{name}}
+
+			Featues:
+				- No JS Logic
+				- Safe and simple
+
+		Handlebars
+			Advance verson of Mustache
+
+			Supports helpers
+			more powerful than Mustache
+
+
+		Nunjucks
+			Inspired by Python's Jinja2 templates
+
+			Rich features
+			Tempalte inheritance
+			loops , conditions
+
+		Vash
+			Razor like Synatax (.NET)
+
+			<h1>@model.name</h1>
+
+		doT.js (Dut.js)
+			High performance template Engine
+
+			{{=it.name}}
+
+
+			Very fast
+			Lightweight
+
+
+		atpl
+			Lightweight async tempalte engine
+
+		Haml
+			similar to pug (identation based)
+
+
+React app
+	contract
+
+Backend app (nodejs) expressjs/ nodejs http module node server expose API based on contract
+
+Deplying application
+	Heroku
+		A platform as a service (PaaS) that allows you to deploy applications easily
+
+
+		Feature of Heroku:
+			- Easy deplyment via Git
+			- Free timer (limited)
+			- Auto scaling
+			- Add-onds (DB , Logging etc)
+			- CI/CD support
+
+		Steps:
+			npm install -g heroku
+
+			heroku login
+
+			heroku create
+
+			Create Nodejs application
+				Platform.js
+					"scripts": {
+						"start": "node app.js"
+					}
+
+			git init
+			git push heroku master	
+
+			open application
+			heroku open
+
+			app.js
+				app.listen(PORT)
+
+
+	Vercel
+		A Serverless deployment platform maintly for frontend and APIs
+
+
+	Features:
+		- Serverless functions
+		- Fast global CDN
+		- Zero config deployment
+		- Git integration
+		- Auto scaling
+
+
+		npm install -g vercel
+
+		vercel
+
+			project name
+			framework
+			deploy
+
+
+Client 
+	
+	HTTP Request
+
+	Express API Endpoint
+
+	Business logic
+
+	Response (JSON)
+
+	Deployed on Heroku/vercel
+		access it globally
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/17/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	- NodeJS Modules
+	- NodeJS fs module
+	- Event management with Nodejs
+		- create custom events in nodejs
+
+
+Module?
+	A Module in Nodejs is reusable block of code that can be exported from one file and imported into another file.
+
+Every file, is treated as separate module.
+Module helps in:
+	- Organized code
+	- Improves maintainability
+	- Code reuse
+	- separating functionality
+
+
+app.js -  
+math.js
+user.js
+product.js
+
+	- Each module you specify its responsibility.
+
+
+Types of Nodejs modules:
+	1. Core Modules 		- Built-in modules provided by Nodejs (fs, http, path, os, events, stream)
+	2. Local Modules 		- Modules created by developers
+	3. Third-party Modules	- Modules installed using npm (express, mongoose, lodash, axios)
+
+How Nodejs module system works?
+
+When Nodejs loads module:
+	1. Module code is wrapped inside a function
+	2. Variables are scopped locally
+	3. Only exported content is accessible
+
+Important Module Variables:
+ exports - shortcut for module.exports
+ module - current module object
+ require() - import modules
+ __filename - current file path
+ __dirname - current directory
+
+
+ Two ways module can be exported:
+ 	1. module.exports
+ 		used to export functionality from a module
+
+ 	2. exports
+ 		shortcut reference to module.exports
+
+
+ Module loading process in Nodejs
+ 	when require() is executed:
+ 		Nodejs performs:
+ 			1. check core modules
+ 			2. check local files
+ 			3. check node_modules directory	 
+
+
+require("fs")
+require("./math")
+require("express")
+
+app.js
+server.js
+database.js
+	connectDB
+	closeConnectionDB
+
+
+
+Export Literals:
+
+	
+	Module can export literal values such as:
+		- numbers
+		- strings
+		- booleans
+
+config.js
+
+	module.exports = 3000;
+
+const port = require("./config")
+
+message.js
+module.exports = "Welcome to Nodejs"
+
+const message = require("./message")
+
+Exporting objects
+ Export object containing multiple functions or values.
+ This allows module to expose multiple functionalities.
+
+
+Exporting function as a class
+	sometimes we export constructor functions, which behave like class.
+
+Export a function that returns an object
+
+
+
+
+-------------
+fs module
+synchronous vs asynchronous methods
+key operations (read, write, append)
+read directories
+creating directories
+check if file or directory exists or not.
+
+
+
+Synchronous. 	-  Blocks executions until operation complete (not recommended)
+Asynchronous.   - Non blocking, uses callbacks
+
+
+Reading Directory:
+	Nodejs can read all files inside a folder
+
+	fs.readdir()
+
+Cehcking if directory or file exists
+	Two ways:
+		1. fs.existsSync()
+		2. fs.stat()
+
+
+
+-----------
+	Event management
+
+	Event - an action or occurrance detected by system that can trigger a response.
+
+Ex:
+	- file opened
+	- request received
+	- timer completed
+	- user logged in etc
+
+
+Nodejs provides core module named, events for working with events.
+	- Create events
+	- emit events
+	- listen for events
+	- handle event-driven logic
+
+EventEmitter
+	this EventEmitter class is the core class used to manage events in Node.js
+
+	it allows to:
+		- emit events
+		- listen for events
+
+emitter.on - listen for events
+emitter.emit - used to trigger an event
+
+emitter.once() - sometimes event should execute only once.
+
+emitter.off() - remove listeners
+emitter.removeListener()
+
+
+Two ways to work with EventEmitter.
+
+1. Returning an EventEmitter from a function
+
+	A function can create and return EventEmitter object, allowing external code to listen for events
+
+2. Inheriting the EventEmitter class
+	Instead of creating emitter manually, we can extend the EventEmitter class.
+
+	this allows objects to emit event directly
+
+
+Order is placed --> payment process --> update inventary --> email to the customer
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/13/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	- Handling Request and Response + Routing
+	- Callstack and callback fundamentals
+	- Streams and Stream utility functions
+	- Buffers and character sets understanding
+	- JavaScript Refresh concepts
+		IIFE
+		Object create
+		Prototype object
+		Reusing methods across objects using apply and call methods
+
+
+
+- Handling Request and Response + Routing
+	
+	Network communication doesn't send all data at once. 
+	Instead, the request body is received in small pieces called chunks
+
+	clinet --> Node receives chunks --> chunks are combined --> final body processed
+
+	res --> Writable Stream object
+
+	writes data to the response stream.
+
+	res.write() --> Sends chunks of data
+
+
+	res.end() --> Finish response
+
+	res.writeHead --> send header information
+
+	GET /home --> Show homepage
+	GET /about --> Show about page
+	GET /login --> show login page for user to authenticate
+
+Call stack: 
+	The callstack is datastructure that keeps track of function execution in Nodejs program
+	It follows LIFO principle
+	Last function added --> executed first
+	The call stack stores function execution context.
+
+Callback Queue:
+	When Asynchronous operation is completed, their callbackes are placed into queue called the callback queue.
+
+	Types:
+		TimerQueue	- Stores callback scheduled by timer functions
+					setTimeout()
+					setInterval()
+
+
+
+		Microtask queue
+			higher priority than other queues
+
+			Promise.then()
+			process.nextTick()
+
+
+
+		I/O Queue
+			Handles callbacks related to I/O operations
+
+		Examples:
+			File reading
+			network requests
+			database operations
+
+		File read --> Completed --> callbakc added to I/O queue
+
+		Check Queue
+			Handles callbacks scheduled by:
+				setImmediate()
+
+			This callback runs after I/O phase.
+		
+
+		Close Queue
+			Handles callback related to closing resources
+
+		Ex:
+			Socket closing
+			Stream closing
+
+			socket.on('close')
+
+
+Priority:
+	Microtask queue --> Timer Queue --> I/O QUeue --> Check Queue --> Close Queue
+
+
+Nodejs Streams:
+	Stream is an object that used to read or write data continiously in small chunks instead of loading everything into memory.
+
+Streams allow efficient data processing
+	Ex:
+		files
+		HTTP Reqeust
+		network websockets
+		compressed data
+
+
+		Source --> Stream (data chunks) --> Destination
+
+
+
+	Types:
+		Readable. -- Used to read data
+		Writable. -- Used to write data
+		Duplex.   -- Read and write both
+					reading and writing simultaniously.
+
+			Ex: TCP Sockets
+				Network communications
+
+				Both sides can send or receive data
+
+				const net = require("net");
+
+			const server = net.createServer((socket)=> {
+			socket.write("Hello client");
+			socket.on("data", (data)=> {
+				console.log("client says:", data.toString());
+
+			})
+		
+
+			server.listen(3000);
+
+
+
+		Transform. -- Modify data while streaming
+
+		Ex:
+			Compression
+			Encryption
+			data formating
+
+Stream utility functions:
+	pipeline() --> safely connects streams toghether and handles errors automatically
+
+	Readable.from()
+		Creates readable stream from iterables or arrays
+
+
+	finished() --> detects when a stream has completed.
+
+	addAbortSignal() --> Allows cancellation of streams using AbortController.
+
+
+---------------------
+Understand Buffers 
+	
+	JavaScript oriignally works well with text- data, but many real-world applications require handling binary data.
+	such as:
+		- images
+		- video
+		- audio
+		- netowork packets
+		- compressed files
+
+	Binary data cannot be processed directly as strings.
+
+	Node.js introduced Buffers to handle raw binary data efficiently.
+
+
+What is buffer?
+	Buffer is a fixed chunk of memory allocated outside V8 engine used to handle binary data in Node.js
+
+Key points:
+	- Stores binary data
+	- Used heavily in streams and networking
+	- Represents data as bytes.
+
+
+	A --> 01000001
+	  --> 41 (Hexadecimal representation)
+	  --> 65 (Decimal representation)
+
+
+Character sets
+	defines the mapping between characters and numeric codes.
+
+	characters --> Number
+
+ASCII character set
+	American Standard code for Information Interchange
+
+	7 bit (128 characters).
+
+	A --> 65
+	B
+	C
+	s	  
+
+	Includes:
+		- English letters
+		- numbers
+		- puctuation
+
+	But it cannot handle:
+		- chinese characters
+		- emojis
+		- many other international launguages
+
+Unicode character sets
+	Created to represents all characters from all languages
+
+	1000000 + characters supports
+
+
+Character Encoding
+	Character encoding defines how characters are stored as bytes in memory.
+
+	Character --> Unicode point --> encoding --> Binary bytes
+
+	UTF-8 Encoding
+		UTF-8 is the most common encoding used on the internet
+
+		Features:
+			- Variable length encoding
+			- uses 1-4 bytes per character
+			- backward compatible with ASCII
+
+setEncoding() --> with streams to convert buffer data into readable strings automatically.
+
+	normally streams uses buffer objects
+	setEncoding() - convert tham into strings.
+
+
+	utf8 - default encoding styles
+	ascii - ASCII encoding
+	base64 -  binary-text encoding
+	hex - Hexadecimal encoding
+	latin1 - ISO-8859-1 encoding
+	ucs2/utf16le - Unicode 16-bit encoding
+
+
+
+	Arrow function?
+		Storing function as variable
+		passing function as argument
+
+	Function constructor
+
+	IIE
+	prototypes
+
+Javascript few concepts:
+	
+	const add = function(a, b) {
+			return a+b;
+	}
+
+	add(3,4) --> 7 
+
+	const add = (a, b) => {
+		return a+b;
+	}
+
+	const add = (a,b) => a+b; // Function expression
+
+	arrow function with this keyword
+	Arrow funciton doesn't own this keyword
+	it will inherit from the surrounding scope.
+
+
+	Function Constructor:
+
+		const user1 = {
+			name: "john",
+			age: 25
+		};
+
+		const user2 = {
+			name: "john",
+			age: 25
+		};
+
+
+		function FunctionName(parameters) {
+			this.property = value
+		}
+		FunctionName -- start as capital letter
+		- used with new keyword
+
+		javascript internals:
+			- creates empty new object {}
+			- Sets this --> new object
+			- Executes constructor function
+			- Returns object
+
+
+Class?
+	Modern javascript often uses class syntax, but internally it behaves like constructor functions.
+ 
+pass by value -- copy of the variable value is passed to the function
+pass by reference -- copy of the reference location of the object
+
+IIFE - Immediately Invoked Function Expression
+	
+	function that executes immediately after it is defined
+
+	Normally, functions must be called separately
+
+Why?
+	1. Avoid global variable population
+	var count = 0;
+		this creates global variable
+
+	Using IIFE
+
+	2. Module Pattern
+
+Arrays
+	idex - 0
+	- store differen data types
+	let data = [10, "node", true]
+
+	data[0] = 11;
+	push
+	pop
+
+
+	prototype chainign -> dog --> animal(prototype) --> Object.prototype
+
+
+	Prototype:	
+		Every object has an internal link to another object called its prototype.
+
+	This prototype acts like a parent object, from which properties and methods can be inherited.
+
+	Reuse methods across objects
+		call()
+		apply()
+
+		bind()
+
+	call() --> invokes a function and allows us to set value of this.
+		function.call(thisArg, arg1, arg2, arg3....)
+
+	apply() --> works like call but accepts arguments as an array
+	funciton.apply(thisArg, [args])
+
+	bind() --> returns a new function and doesn't execute immediately
+			
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/12/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+Agenda
+- NodeJS fundamentals
+- Package manager 
+- Bulding blocks of Nodejs
+- Exploring Libuv
+- NodeServer
+- Understanding NodeJS ProcessObject and Events
+
+What is NodeJS?
+	Open-source, cross-platform JavaScript runtime environment that allows javascript code to run outside the browser, mainly on the server side.
+
+	- crete web servers
+	- access files
+	- communicate with databases
+	- handle network requests
+	- Build backend system
+
+	Developers can now use JS for both frontend and backend development.
+
+	Characteristics:
+	-------------
+		- Runtime environment
+		- Built on chrome's V8 engine
+			V8 Engine converts javascript code to machine code, which allows programs to run very fast.
+		- Event-Driven Architecture	
+			Operations triggerred by events:
+				- File read completed
+				- HTTP Request received
+				- Db query read finished
+			System reacts to these events instead of waiting for operations to finish
+		- Non-Blocking I/O
+			Node.js performs non-blocking operations, meaning it doesn't stop execution while waiting for task 
+				- file-reading
+				- db queries
+				- network requests 
+		- Single threaded model
+			NodeJs uses main thread with an event loop to handle many concurrent requeests efficiently.
+
+	Benefits:
+	---------
+		- High performance
+		- Same language for backend and frontend
+		- High scalable
+			can handle thousand of concurrent connections due to its event driven architecture.
+		- Lage Ecosystem (NPM)
+		- Fast development
+
+
+Package Manager
+	built-in modules:
+		- fs
+		- http
+		- path
+		- os
+	Real-world applications requires many additonal features:
+		- web frameworks
+		- db connectivity
+		- authentication
+		- validation
+		- logging.....
+
+	Dev can use package already created by community. these packages extends NodeJs capabilities.
+
+	mongodb - Mongoose
+	webframeowk - express
+	authentication - passport
+	validations - joi
+	http client - axios
+
+	core package + extended packes == complete application
+
+	project -->
+	package.json
+
+	Package Manager: 
+		tool that helps developers to manage packages
+
+	Allows developers to:
+		- install packages
+		- update packages
+		- remove packages
+		- manage dependencies
+		- download packages from repositories
+
+
+	npm - Node.js default package manager
+	yarn - Alternative
+	pnpm - 
+
+	npm install express
+
+	componentes of npm:
+		1. npm CLI (Command line interface)
+		2. npm Registry 
+			public registry where all packages
+
+			folder: node_modules
+
+			npm install express
+			npm install -g package-name
+
+
+		npm init
+			creates file called package.json, which stores proejct information
+			ask questions:
+				- package name
+				- version
+				- description
+				- entry point
+				- author
+				- license
+
+		npm init -y
+
+		3. package.json
+
+			{
+				"name": ""
+				"version":
+				"description":
+				"main":"app.js"
+				"script": {
+					"start": "node app.js"
+				}
+
+				"dependencies": {
+					"express": "4.18.2"
+				}
+
+				"devDependencies": {
+
+				}
+			}
+
+
+devDependencies - used by developers
+	ex: 
+		- testing frameworks
+		- build tools
+		- debuggers
+
+check nodejs :
+	node -v
+	npm -v
+
+	npm init -y
+
+
+Building blocks of NodeJS
+	- Asynchronous Programming
+
+		synchronous:
+			read file --> wait
+			query db --> wait
+			send response
+
+			slow performane under heavy traffic
+
+		Start task1
+		start task2
+		start task3
+
+		process results when ready
+
+
+	- Non Blocking I/O 
+
+		System doesn't stop executing other operations while waiting for input/output operations to finish.
+
+		I/O operations:
+			- reading. files
+			- db queries
+			- network requetss
+			- API calls
+
+		Blocking I/O operations
+			Read file
+			(wait until file reading finishes)
+
+			then continue execution
+
+		Non-Blocking I/O operations
+			Read req received
+			continue process other request
+			when file reads completed --> process result
+
+	
+	libuv 
+		-
+
+Single thread + event loop 
+
+	event loop
+
+	heavy task
+
+		thread pool
+
+		background processing
+
+
+Flow:
+	Client request --> Event Queue --> Event loop --> call stack --> If heavy task
+																		- Thread pool
+																		- Callback queue
+													-> event loop
+													-> send response
+
+
+Benefits:
+	- Lower memory usage
+	- faster response time
+	- better scalability
+
+Single threaded event driven architecture
+
+LibUv
+	c-based library used by NodeJs to implement asyncrhonous , non-blocking I/O operation
+
+	Node js - mainly written in javascript + c++
+			many low level operations requires interaction with Operating system
+
+	Libuv provides that capability:
+
+
+	Application code (java script)
+
+		Node JS APIs
+
+			V8 javascript engine
+
+				Libuv
+
+					operating system
+
+
+
+		HTTP Protocol:
+		 drao io
+
+
+	Node Server:
+		Program that listen for client request over network and send responses back to the client
+
+	 	client can be  
+	 		- web browser
+	 		- mobile application
+	 		- other backend service
+	 		- APIs
+
+	 	Communication happens through HTTP protocol
+
+	 	client --> HttpReqeust --> NodeJs sever --> process request --> send response back
+
+	 HTTP Module
+	 	core module of nodejs
+
+	 	Allows applications to:
+	 		- handle client requests
+	 		- send responses
+	 		- build APIs
+	 		- build webservers
+
+	 	HttpStatus code:
+	 		200 -> Success
+	 		201 -> Resource created
+	 		400 -> Bad request
+	 		404 -> Not found
+	 		403 -> forbidden
+
+	 		500 -> server error
+
+Process Object
+	global boject that provides information and control over current Node js application
+
+	It represents running NodeJs process
+
+	console.log(process)
+
+	What this process object provides?
+		- environment variables
+		- command line arguments
+		- application exit control
+		- memory usage
+		- runtime information
+		- process events
+
+	Events
+		even driven architecture
+
+		Ex:
+			- HTTP request received
+			- file read copleted
+			- database query finished
+			- timer executed
+		NodeJs provides EventEmitter class to manage events
+
+
+	Event Occurs
+	Event detected
+	Event handler executes
+
+	Process Events:
+	 process object emits various events during lifecycle of nodejs application.
+
+	 These events help develoepr to manage:
+	 	- application shutdown
+	 	- errors
+	 	- promise handling
+	 	- inter process communication
+
+
+	 beforeExit event
+	 	Triggered when Node.js has finished executing the event loop and is about to exit.
+
+	 	This allows developers to schedule additional work before the process exits.
+
+	 disconnect event
+	 	Triggered when Nodejs process loses connection with its parent process.
+
+	 	This occurs mainly in child process communication.
+
+	 exit
+	 	Triggred when Node.js process is about to exit
+	 	No asyncrhonous operations can be executed here.
+
+
+	 	uncaughtException Event
+	 		Triggered when exeception occurs and is not handled by try-catch block.
+
+
+	 	unhandledRejection Event
+	 		Triggered when a Promise rejection is not handled
+	 		Promise.reject()
+
+	 	warning event
+	 		Triggered when Node.js emits a runtime warning
+
+	 	rejectionHandled event
+	 		Triggered when previously unhandled promise rejection gets handled later.
+
+	 			
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/07/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	- MongoDB Schema validation
+	- Index
+	- Peformance tips
+	- Phase End project
+
+
+Schema validations:
+
+	Mongodb is schemaless database, which means documents udner same collection can have different structures.
+
+	{
+		name: "Dhruvik",
+		age: 25
+	}
+
+	{
+		username: "Priya",
+		email: "priya@gmail.com"
+	}
+
+Problems:
+	1. Inconsistent data structure
+	2. Incorrect data types
+	3. Missing required fields
+	4. applications errors
+
+To prevent these problems, MongoDB provides Schema validation.
+
+SV - Allows developers to define rules that documents must follow when inserted or updated.
+
+
+MongoDB uses JSON Schema to define validation rules.
+	- required fields
+	- data types
+	- field constraints
+	- value ranges
+	- allowed values
+
+db.createCollection("collectionName", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["field1","field2"],
+			properties: {
+				field1: {
+					bsonType: "string"
+				},
+				field2: {
+					bsonType:"int"
+				}
+			}
+		}
+	}
+
+})
+
+{
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["name","email","age"],
+
+			properties: {
+				name: {
+					bsonType: "string",
+					description: "Name must be a string"
+				},
+
+				email: {
+					bsonType: "string",
+					description: "Email must be a string"
+				},
+
+				age: {
+					bsonType: "int",
+					minimum: 18,
+					description: "Age must be an integer and >= 18"
+				},
+
+				isActive: {
+					bsonType: "bool",
+					description: "Must be true or false"
+				}
+			}
+
+
+		}
+	}
+}
+
+If you have existing collection, validation rules can be added using collMod.
+
+db.runCommand({
+	collMod: "employees",
+	validator: {
+		$jsonSchema: {
+		// Schema rules
+		}
+	}
+})
+
+
+Validation Modes:
+
+	validationLevel: Determines which documents are validated?
+
+		Two options
+
+		strict: All insert and udpates must follow schema
+		moderate: Only New documents are validated
+
+
+	validationAction: Defines what happens when validation fails.
+
+		error: Rject the operation
+		warn: Allow operation but log warning
+
+
+Two approaches:
+	1. Store media as binary data inside documents - 16 MB
+	2. Store large media using GridFS
+
+
+db.users.insertOne({
+	name:"rahul",
+	profileImage: BinData(0, "YYYSDOFSDJKLJDF") 
+})
+
+GrindFS - MongoDB specification for storing large files
+
+	- split file into small chunks
+	- stores chunks across multiple documents
+	- reconstruct the file when needed
+
+
+Frontend
+	static images
+	static videos
+
+	CDN --> 
+	
+Backend --> 
+---------------------------------------------
+Index in MongoDB
+
+Index - special data structure that improves the Speed of data retrieval operation
+
+Index stores value of a field in sorted strcture (B- Tree) along with references to the documentation that contains those value.
+
+Without Indexes, MongoDB performs Collection Scan (COLLSCAN)
+With Indexes, MongoDB performs Index Scan (IXSCAN)
+
+
+Why INdexes are important:
+ Improves performance for:
+ 	- searching documents
+ 	- Sorting results
+ 	- Aggregation operations
+ 	- Join operations ($lookup)
+
+ However, indexes also have trade-offs:
+ 	- Extra storage
+ 	- Slightly slower inserts and updates
+
+
+By default, mongodb creates index for _id field
+
+
+Types of Index:
+	1. Single Field Index
+
+		db.students.createIndex({city:1})
+
+
+	2. Compound index
+		Index on multiple fields.
+
+		db.students.createIndex({course:1, age:-1})
+
+	db.students.find({couse:'Computer science'}).sort({age:-1})
+
+	Rule:
+		Index order matters:
+		{course:1, age:1}
+
+		works for seach: 
+			course
+			course + age
+
+		Not for
+			age alone
+
+	3. Unique Index
+		Ensures field values remain unique
+
+		db.students.createIndex(
+			{email: 1},
+			{unique: true}
+	 	)
+
+	 	Duplicate insert will fail
+
+	 4. Text Index 
+	 	Used for Full Text search
+
+	 	db.articles.createIndex({content: 'text'})
+
+	 	db.articles.find({
+	 		$text: {$search: "mongodb"}
+	 	}) 
+
+	 5. TTL Index (Time-To_Live)
+	 	Automatically deletes documents after specific time
+
+	 	db.sessions.createIndex(
+	 		{createdAt: 1},
+	 		{expiredAfterSecionds: 3600}
+	 	)
+
+
+	 	Document expire after 1 hour, will be deleted from db
+
+
+MongoDB Best Practices:
+
+1. Design Right Data Model
+
+	a. Use Embed when data is accessed Together
+
+	b. Use References when Data is large or shared
+
+2.  Create proper index
+
+	Avoid too many indexes
+
+3. Use Projection
+	
+	db.users.find({age: 25}, {name:1, email:1} )
+
+4. Keep documents Small
+	Limit: 16MB size
+
+5. Use SChema Validation
+
+6. Monitor Query performance
+	use explain() --> analyze query performane
+
+7.Use proper hardware
+	SSD
+	Sufficient RAM
+
+8. Avoid large Joins
+	$lookup --> Frequent use can slow performance
+
+9. Use bulk operations	
+	insertMany([])
+
+10. Backup data regularly
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/06/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	- CRUD
+	- find cursor concept
+	- Update operators
+	- Data modelling
+		OneToOne
+		OneToMany
+		ManyToMany
+	- MongoDB Aggregation framework
+	- Data Types
+
+CRUD
+	C - Create --> Insert data
+	R - Read 	-> Retrieve data
+	U - Update 	-> Modify Existing data
+	D - Delete 	-> Remove data
+
+
+Student management
+	studentId, Name, class, age, subjects	
+
+schoolDB
+	students
+		Document
+
+Cursor:
+	When query is executed using fine() method, MongoDB doesn't immediately return all matching documents. Instead it returns a cursor object, which allows the database to retrieve documents in batches.
+
+	20 by default.
+
+	- Fetch results in batches
+	- Loading documents only when needed
+	- Reducing memory consumption
+	- Improving query performance
+
+find() -> return cursor
+forEach --> loops thorugh each document
+doc --> variable represent each document
+
+hasNext()
+
+db.students.updateOne({}, {$rename: {"name":"fullname"}})	
+subject: ["math","science"]
+db.students.updateOne({}, {$push: {subject: "computer"}});
+
+subject: [.. , [computer]]
+
+
+$pull: Removes a value from an array
+db.students.updateOne({}, {$pull: {subjects:"Math"}})
+
+-----------
+	Data Modelling
+
+	Process of desiging how data will be structured, stored, and related inside a database.
+
+	- whether data should be embedded or referenced?
+
+ Why is it important?
+ 	- Improves query performance
+ 	- Reduce data duplication issues
+ 	- Making the application easier to maintain
+ 	- Ensures efficient data retrieval
+ 	- Deisining scalable applications
+
+ 1. One-to-One relationship
+ 		One docuemnt in a collection is related to exactly one document in another collection
+
+ 		Ex: User has passport
+
+
+ 2. One-to-Many relationship
+
+ 	Customer -> Orders
+
+
+{
+	_id: ObjectId("C101")
+	name: "Amit Patel",
+	email: "amit@email.com"
+	orders: ["ORD101", "ORD102","ORD103"]
+}
+
+Orders:
+{
+	orderId: "ORD101",
+	product: "Laptop",
+	price: 60000,
+	customerId: ObjectId("C101")
+}
+
+
+ 3. Many-to-Many relationship
+
+ Can be implemented
+  - Embedded documents
+  - Document references
+
+
+  Students --> Courses
+
+
+  Reference technique to store documents
+
+
+Courses:
+[
+	{
+		_id:101,
+		courseName: "Math",
+		duration: "3 months"
+	},
+	{
+		_id:102,
+		courseName: "Physics",
+		duration: "4 months"
+	},
+	{
+		_id:103,
+		courseName: "Computer science",
+		duration: "6 months"
+	}
+]
+
+
+students:
+[
+	{
+		name: "Rahul",
+		age: 20,
+		courses: [101,102]
+	},
+	{
+		name: "Priya",
+		age: 20,
+		courses: [102,103]
+	},
+	{
+		name: "Rahul",
+		age: 20,
+		courses: [101]
+	},
+
+]
+
+
+Aggregator operators
+	
+
+db.students.aggregate([
+	{
+		$lookup: {
+			from: "courses",
+			localField: "courses",
+			foreignField: "_id",
+			as: "courseDetails"
+		}
+	}
+	]
+)
+
+MongoDB Types:
+	
+	Text - "DHRUVIK"
+	Boolean - 
+	Number
+		Integer(int32). - 55
+		NumberLong(int64) -- 10000000000
+		NumberDecimal 		- 12.99
+
+	ObjectId
+	ISODate	- 2026-09-09
+	Timestamp - 
+	EmbeddedDocument
+	Array
+
+company
+
+	{
+		"name": "Fresh Apple Inc",
+		"isStartup": true,
+		"employees": 33,
+		"funding": 123456789012345,
+		"details": {"ceo":"Dhruvik Parikh"},
+		"tags": [
+			{"title":"super"},
+			{"title":"perfect"}
+		],
+		"fundingDate": new Date(),
+		"insertedDate": new Timestamp()
+	}
+
+
+MongoDB Schema Validation
+
+--------------------------------------------------------------------------------------------------------------------------
+03/05/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+Agenda:
+	- NoSQL?
+	- MongoDB fundamentals
+	- MongoDB Ecosystem
+	- Installation Steps
+	- MongoShell
+	- Practice insertion and view
+
+
+NoSQL?
+	It refers to a class of database system that do not follow traditional relational database model (table with rows and columns)
+
+	Unlike RDBMS such as MySQL, oracle, postgresql ,
+	NoSQL database are designed to handle:
+		- Large volume of data
+		- High speed data processing
+		- Flexible data structure
+		- horizontal scalling
+
+
+	NoSQL database store data in different formates as documents, key-value pair, graph, wide column structures instead of structured tables.
+
+Why NoSQL?
+	- Massive user data
+	- Realtime analytics
+	- Social media content
+	- IoT data streams
+	- Ecommerce transactions
+
+RDBMS - Struggle with scalling and flexibility
+
+Features of NoSQL
+	1. Schema flexibility
+		ID NAME EMAIL
+
+	   documents can have different fields.
+
+	 2. Horizontal Scalability
+
+	 	NoSQL databases supports horizontal scalling, meaning data is distributed across multiple servers (nodes)
+
+
+	 3. High Performance
+
+	 	- Fast reads
+	 	- Fast writes
+	 	- High throughput			
+
+	 4. Distributed Architecture
+
+	 	Data is shared across multiple machines
+
+	 	Benefits:
+	 		- Fault tolerance
+	 		- High availability
+	 		- Load balancing
+
+	 5. Big Data Support
+
+NoSQL Data Types:
+	
+	1. Key-Value Databases
+
+		Data is stored as key value pair
+
+			Key: user_101
+			value: {
+			name: "John",
+			age: 30
+			}
+
+		characteristics:
+			- very fast
+			- simple structure
+			- used for cachinga and session storage
+
+		Ex:
+			- Redis
+			- DynamoDB
+			- Riak
+
+	2. Document Databases
+
+		Data is stored as documents, usually in JSON like format.
+
+		Each document can contain multiple fields and nested structure.
+
+		- MongoDB
+		- CouchDB
+
+	3. Column - Family databases
+
+		Data is stored in columns instead of rows.
+		Columns are grouped into column families
+
+		This model is optimized for large - scale data processing
+
+		Ex:
+			- Cassandra
+			- HBase
+
+	4. Graph Databases
+
+	   Data is stored using nodes and relationships.
+
+	   This model is useful for applicatoins involving complex relationships
+
+	   Ex:
+	   	- Neo4j
+	   	- Amazon Neptune
+
+	   Used In:
+	   	- Social network
+	   	- Recommendataion engines
+	   	- Fraud detections
+
+
+MongoDB?
+	MongoDB is a NoSQL document oriented database designed for storing and managing large volume of data.
+
+	Instead of storing data in tables and rows, MongoDB stores as documents inside collections
+
+	Documents are stored in format called BSON (Binary JSON)
+
+Why MongoDB>?
+	- Schema flexibility
+	- High performane
+	- Horozonal scalability
+	- JSON-like Documents
+	- Rich QUery Capabilities
+		- Filter data
+		- Aggregate data
+		- Perform analytics
+
+MongoDB EcoSystem
+
+	1. MongoDB Core:
+		Main database engine, it handles
+			- data storage
+			- Query processing
+			- Indexing
+			- Replication
+			- Sharding
+
+		This is a central component of MongoDB Ecosystem
+
+	2. MongoDB Atlas
+		Cloud-based databae service provided by MongoDB
+
+		Features:
+			- Fully managed database
+			- Automatic backup
+			- Built-in Monitoring
+			- Auto scaling
+			- Global Deployment
+
+	3. MongoDB Realm
+		Mobile and application development platform
+
+		It offers developers to bild applications with
+			- Real-time data sync
+			- Authentication services
+			- Serverless function
+
+	4. Compass
+		MongoDB compass is GUI tool for MongoDB
+		Features:
+			- Visual data exploration
+			- Query building
+			- Performance analyssis
+			- Index management
+
+	5. MongoDB Connectors for BI
+
+		MongoDB Connectors for BI allows SQL based tools to access mongoDB data.
+
+		It converts MongoDB data into format compatible with business intelligence tools.
+		enables:
+			- Tableau
+			- PowerBI
+			- Excel
+
+	6. MongoDB Charts:
+		-Data visualizaiton tool
+		- Allows users to create charts and dashboards directly from MongoDB data.
+
+		This helps team analyze data visually without exporting it to other platoform.
+
+	7. MongoDB Aggregation Framework
+		Aggregation Framework allows developers to process and analyze data within MongoDB.
+
+		- Filtering
+		- Grouping
+		- Transforming
+		- Calculating results
+
+		analytics and reporting
+
+	8. Stich	
+		MongoDB Stitch - serverless platform for app development
+		- Authentication
+		- Database access
+		- serverless function
+
+		Nowadays Stitch is integrated into Realm
+
+
+Installation
+	
+	Minimum recommended:
+		- 4 GB
+		- 2GB free disk space
+		- 64 bit operating system
+
+
+	Install:
+		complete
+			MongoDB server
+			MongoDB Shell
+			MongoDB Tools		
+
+
+	MongoDB as a service
+		- Install as windows services
+		services --> MongoDB
+
+
+Concepts:
+	
+	Database in mongodb is a container that holds collections.
+
+	It is similar to a database with RDBMS
+
+	Each database contains multiple collections
+		ex: companyDB, Empoyeedb, flights, sales, inventorydb
+
+
+	MongoDB server --> conains multiple databases
+						each datbase contains collections
+
+					Each database independent of each other.
+
+	Collections?
+		- Group of mongodb documents
+
+		similar to table in relational database
+		Documents inside same collections can have different structures.
+
+
+	Documents?
+		- basic unit of data in mongodb
+		It is row in RDBMS
+		Document is stored as set of key-value pairs
+		Documents are represented using JSON-like format
+
+{
+	"name": "dhruvik",
+	"Address": {
+		"city": "bangalore",
+		"state":""
+		"country":""
+	}
+
+}
+	
+	- Documents stores data in key-value format
+	- Documents can contains nesetd objects
+	- Documents can contains arrays
+	- Documents are stored in BSON format internally
+
+	BSON:
+		BSON binary encoded format used internally by MongoDB to store documents.
+		MongoDB converts JSON documents into BSON before storing them in the database.
+
+	Why BSON?
+		- Faster data retrieval
+		- Additional data types
+		- Efficient storage
+		- Better performance
+
+
+
+MongoDB Server --> Databaase --> Collection --> Docuemnt --> Fields (key-value pairs)
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+03/03/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	Triggers
+	Index
+	Backup and restore
+
+
+Triggers:
+---------
+	Trigger is a database object that automatically executed before or after a sepecific event occurs on a table.
+
+	Events:
+		- INSERT
+		- UPDATE
+		- DELETE
+
+	Triggers - automatically , not manually.
+
+ Key Characteristics:
+ 	- Automatically executed
+ 	- Associated with single table
+ 	- Fired on INSERT/UPDATE/DELETE
+ 	- Can BEFORE or AFTER an event
+ 	- Uses NEW and OLD Keywords
+ 		UPDATE - NEW  - valuse after change (OLD- value before change)
+ 		INSERT - OLD - Not allowed New available
+ 		DELETE - OLD available and NEW not available
+
+ 	- cannot accept parameters or return values
+ 	- Executes as part of transaction
+
+Syntax:
+	
+	CREATE TRIGGER trigger_name
+		BEFORE | AFTER INSERT | UPDATE | DELETE
+
+	ON table_name
+		FOR EACH ROW  --> Triggers runs for every affected row
+	BEGIN
+		SQL Statements;
+	END
+
+	DELIMITER;
+
+
+SIGNAL SQLSTATE - Manually raise an error or warning condition in storedprocedure/trigger . 
+45000 --> generic 'unhandled user-defined excetion'
+
+Practical applictions of Triggers:
+	1. Logging
+	2. Data validation
+	3. Audit trails
+		keep track of who changed what and when
+    4. Automatic data synchronization
+
+
+Two types of triggers:
+	1. Row - Level Trigger
+		Executes once for each row affected by the DML statement.
+		If statement affect N rows, trigger fire N times.
+
+	2. Statement - level trigger
+		Executes once per SQL statement, regardless of how many rows are affected
+
+		once per statement
+		DO not use FOR EACH ROW
+		CAN NOT ACCES TO OLD ADN NEW
+		Used for summay logging or bulk operations
+
+	oracle
+	postgresql
+	sql server
+
+	UPdate employees set salary = salary+10000, where dept=10;
+	insert bulk_log values ('',New())
+
+Can we modify Trigger in MySQL? 
+	NO
+
+DROP trigger trigger_name
+create trigger again with the same name
+
+Avoid triggers when:
+	- Business logic is complex
+	- Logic changes frequenty
+	- Performance is critical on bulk updates
+In that case:
+	better to handle thorugh stored procedure.
+
+
+Best practice:
+1. Keep triggers simple and lightweight
+2. Avoid recursive triggers
+	trigger should not modify same table it is attached to
+3. USE BEFORE Triggers for validation
+4. Use AFTER Triggers for Logging and Auditing
+5. Always log critical changes
+	- Salary change
+	- status udpates
+	- Deletions
+6. Give meaningful names to triggers
+
+-------------------
+	
+Index:
+	An Index in MySQL is a data structure that improves the speed of data retrieval (SELECT queries) on a table.
+
+	Ex:
+		Index of book --> jump to a topic
+		instead of reading every pages. (full table scan)
+
+
+
+	Seperate datastructure(BBT)
+
+		DHRUVIK --> internal referece
+
+	MySQL directly jump to matching rows
+
+Characteristics:
+	- Improves SELECT query performance
+	- Created on one or more columns
+	- Stored separately from table data
+	- Automatically updated when data changes
+	- Uses additonal disk space
+	- can slow down INSERT, UPDATE, DELETE
+	- MySQL uses indexes automatically for primary key
+
+Types of Index
+	1. Non-Unique Index
+		- Allows duplicate values
+		- Used for faster searching
+		- Most commonly used index type
+
+
+	2. Unique Index
+		- Ensures no duplicate values
+		- Allows only one NULL
+		- Enforces data integrity
+
+		Usecase:
+			- Email
+			- PAN,SSN
+
+		create unique index idx_emp_email
+		on employees(email);
+
+		-> prevents dupicate email entries
+		-> faster lookups and data validation
+
+	3. Primary Index 
+		- Automaticallly created when PRIMARY KEY is defined
+		- Values must be unique and NOT NULL
+		- only once per table
+
+
+	4. Composite index (Multi-column index)
+
+		- Index can be created on multiple columns
+		- Order of columns matters
+
+	Ex:
+		- Search by (dept_id + status)
+		- Filter by (Age + salary)
+
+		CREATE INDEX idx_dept_status
+		ON employees (dept_id, status);
+
+		Helps queris using
+			- dept_id
+			- dept_id + staus
+
+		Doesn't help queries using only status column
+
+
+	4. Full Text Index
+		
+		- Used for text searching
+		- Supports natural language search
+		- Works on CHAR, VARCHAR, TEXT
+
+	ex:
+		- Search employee profiels
+		- Product descriptions
+		- Blog content
+
+
+	CREATE FULLTEXT INDEX idx_emp_name
+	ON employees(emp_name);	
+
+
+	5. Spatial index
+
+		used for geographical data
+		works with spatial data types (POINT, GEOMETRY)
+
+		Ex:
+			Maps
+			Location based search
+
+	CREATE SPATIAL INDEX idx_location
+		ON locations(coordinates);
+
+
+
+- MySQL doesn't support rename index
+	DROP
+	CREATE
+
+Overidnexing - creating too many unnecessary indexes
+	- Slower DML operations
+	- Increased disk usage
+	- higher maintainance cost
+
+Note:
+	Used in where order by  join
+
+	use composite index wiesely
+		- place most selective columns first
+		- follow actual query patterns
+
+----------------------------
+Backup and restore
+	Backup - Copy of database that can be used to restore the database in case of:
+		- Data loss
+		- hardware failure
+		- Accidental DELETE/DROP
+		- Corruption
+		- Security attacks
+		- Migration or upgrade
+
+	Restore - Process of recovering data from backup and loading it back in MYSQL.
+
+
+Types of backup
+	1. Logical Backup
+
+		Storing data as SQL statements such as:
+			CREATE TABLE
+			INSERT INTO
+
+		saved in .sql file.
+
+		mysqldump
+
+		- Human readable
+		- Portable across versions
+		- slower for very large databases
+		- easy to restore
+
+
+	2. Physical backup	
+
+		Physical backup copies the acutal database files from disk.
+
+	Tools:
+		- MySQL enterprise backup
+		- File system copy 
+
+		.ibd or .frm files
+
+	- Faster for large datasets
+	- Not human readable
+	- versions and OS dependent
+	- More complex restore
+
+
+
+mysqldump- command line utility used to create logical backups in MySQL
+
+It exports:
+	- Database structure
+	- Data
+	- INdexes
+	- Constraints
+
+
+mysqldump -u root -p --all-databases > full_backup.sql
+mysqldump -u root -p --no-data company_db > company_schema.sql
+
+mysqldump -u root -p --no-data company_db | gzip  > company_schema.sql.gz
+
+
+create database company_db;
+mysql -u root -p company_db < full_backup.sql
+
+gunzip < company_schema.sql.gz | mysql -u root -p company_db
+zcat -> for linux
+
+
+--------------------------------------------------------------------------------------------------------------------------
+02/27/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+Agenda:
+Stored Procedure
+	- Key Charasteristics of Stored Procedure
+	- When Stored Procedure are used?
+	- Benefits of Stored Procedure
+	- What are parameters in MySQL Stored Procedure
+	- Types of Parameters
+	- STored Procedure Syntax
+	- Stored Procedure Example
+	- IN, OUT, IN/OUT Parameter syntax
+	- Stored Procedures List View
+	- Stored Procedure Dropping
+	- Stored Procedure with No Parameters
+	- Builtin functions with stored procedure
+	- 
+
+
+Database Views:
+	- Key Characteristics/ Benefits of View
+	- View Example
+	- Alter view/ Drop View example
+	- What is MySQL View Processing Algorithm? (MERGE Algorithm, TEMP Table, Undefined)
+	- 
+
+What is SubQuery?
+Types of SubQUery
+How SubQuery WOrks?
+Use of subquery in stored procedure
+Use of subquery in views
+
+
+-------------
+
+Stored Procedure:
+================
+	What is SP?
+		- SP is precompiled collection of SQL statements, that can be stored in the database and executed as a single unit.
+
+	SP allows us to:
+		- Reuse SQL logic
+		- Improve Performance
+		- Encapsulate business logic inside the database.
+
+	Key Characteristics of SP
+
+		- SP stored inside database
+		- Can accept input parameters
+		- Can return output values
+		- Can contains multiple SQL Statements
+		- Reduce network traffic
+		- Improves security by restricting direct access to tables
+		- Can include control logic (IF, Loop, WHILE)
+
+
+Examples:
+	- Salary calculation
+	- Employee onboarding
+	- Order processing
+	- REport generation
+	- Data validation logic
+
+What are parameters in Stored Procedure?
+	Parameters are variables that allow data to be passed into or returned from stored procedure
+	They makes stored procedure dynamic and reusable.
+
+Types of parameters in MySQL
+	Three types of parameters
+		- IN parameter
+		- OUT parameter
+		- INOUT parameter
+
+IN Parameter:
+	- Used to pass values into the stored procedure
+	- Default parameter type
+	- Value cannot be cchanged outside the procedure
+
+
+OUT Parameter:
+	- Used to return a value from the stored procedure
+	- Acts like a return variable
+	- Value is set inside the procedure and read outside
+
+	Ex: Returning total employees
+		  Returning calculated salary
+
+INOUT parameter:
+	- Used to pass value in and return a modified value.
+	- Acts like both input and output
+
+ 
+Stored Procedure Syntax:
+---------------------
+
+	CREATE PROCEDURE procedure_name (
+		[IN | OUT | INOUT] param_name datatype,
+		..
+		..)
+
+	BEGIN
+		SQL Statements;
+	END
+
+	DELIMITER;
+
+
+
+Built-in functions in SP
+	
+	 - Performing calculations
+	 - Manipulating strings
+	 - WOrk with the dataes
+	 - Aggegate data
+
+	Common bult-in functions:
+
+	Aggregate 			COUNT, SUM, AVG, MAX, MIN
+  String  				CONCAT, UPPER, LOWER, LENGTH
+  Date 						NOW, CURDATE, YEAR, DATEDIFF
+  Numeric 				ROUND, CELL, FLOOR
+  Control					IF, CASE
+
+
+  ------------
+
+  Database views:
+
+  	A view in MySQL is a virtual table created using SELECT Query.
+
+  	 - A view doesn't store data physically
+  	 - It stores only the queyr definition
+  	 - Data is fetched dynamically from base tables
+
+  	View --> Saved SELECT query.
+
+
+  Benefits:
+  	- Data security
+  	- Simplifies complex queries
+  			Hides JOIN and filters
+  			Makes query easy for users.
+
+  	- Logical Data Abstraction
+  		- Underlying table structure can change
+  		- View remains same for users.
+
+  	- Resusability
+  		- Same view can be resused multiple queries
+  		- Avoids code duplicaitons
+
+  	- Consistent business logic
+  		- Business rules once
+  		- ENsures uniform data access
+
+
+View Processing Algorithms
+	Determines how MySQL executes view query internally?
+
+	It defines:
+		- Wheter MySQL merges the view query?
+		- Or creates a temporary table?
+		- Or decies automatically?
+
+	1. MERGE ALGORITHM
+			- View Query is merged into the main query
+			- No temporary table created
+			- faster execution
+
+
+	2. TEMPTABLE ALGORITHM
+
+		- MySQL creates temporary table
+		- Stores view result first
+		- Query runs on temporary data.
+
+	3. UNDEFINED Algorithm
+		- MySQL decies whether to use MERGE or TEMPTABLE
+
+
+
+------
+Sub Query
+	
+	SubQuery is a query written inside another sql query.
+
+		- Inner query --> Executed first
+		- Outer Query - Uses result of inner query.
+
+	Also known as nested query.
+
+	Why ?
+		- To break complex problems into smaller steps
+		- To avoid temporary tables
+		- To write readable and logical SQL
+		- To derive values dynamically
+		- To use query results inside another query
+
+	Types:
+		- Single-Row subquery
+		- Multi-Row subquery
+		- Correlated subquery
+		- Subquery with exists
+		- Subquery in SELECT/FROM/WHERE
+
+
+		Single-row
+			- Returns only one row
+			- can be used along with = , > , <
+
+		Multi-Row subquery
+			- Returns multiple rows
+			- Used with IN, ANY, ALL
+
+		Correlated subquery
+		
+			- Innerquery depends on outer query
+			- Executes once for each row
+			- Uses outer query column inside subquery
+
+		Ex: Find out employees earning more than average salary of their department?
+
+			For each employee, subquery calculates department average
+			- Comparision happens row by row
+			- More powerful but slower than normal subquery
+
+
+		Subquery with exists
+			- Checks whether subquery returns any rows
+			- Returns true or false
+			- Stops execution after first match
+
+
+			Ex: Find out departments that have atleast one employee
+
+		SubQuery in select clause
+
+			Ex. show employee name with department name using subquery
+
+08:09:24	select emp_name , (select dept_name form departments d where d.dept_id = e.dept_id) AS dept_name  FROM employees e	Error Code: 1064. You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'departments d where d.dept_id = e.dept_id) AS dept_name  FROM employees e' at line 1	0.00034 sec
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+02/26/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+DML
+	- Select (DQL)
+	- Insert
+	- Update
+	- Delete
+
+DCL
+	- Create user, assign user with permission, revoke permission
+
+TCL:	
+	- Start Transaction, Commit, Rollback, SavePoint, Rollback to save point, Release SavePoint
+
+Select with different conditions
+	- Select (Distinct, by, like, case, as, limit, between, where)
+
+Joins:
+	- Inner, Left Outer, Right Outer, Full Outer, Cartesian Join
+
+
+
+--------
+	DML- Data Manipulation language
+
+		Set of SQL commands used to retrieve, insert, modify and remove data from database tables.
+
+		DML works on data inside tables, no on table structure.
+
+		Common commands:
+			SELECT --> Read data
+			INSERT --> Add new Data
+			UPDATE -->  Modify Existing data
+			DELETE --> REmove data 
+
+			TRUNCATE - Removes all rows
+							- where not allowed
+							- faster 
+							- cannot rollbacked
+
+
+DCL - Data Control Language
+	
+	Set of SQL commands used to control access to the database.
+
+	DCL defines:
+		- Who can access the database?
+		- What actions they are allowed to perform?
+		- What actions they are restricted from?
+
+	DCL mainly used for security and access management.
+
+	CREATE USER --> Creaet DB User
+	GRANT --> Assign Permissions
+	REVOKE --> REmove persmissions
+
+
+	CREATE USER 'username'@'host' IDENTIFIED BY 'password'
+
+	GRANT - Assign permissions to the user
+
+		Tyeps of permissions:
+			SELECT
+			INSERT
+			UPDATE
+			DELETE
+			CREATE
+			DROP
+			ALL
+
+		GRANT SELECT,INSERT ON employee_db.* TO 'app_user'@'localhost'
+
+		REVOKE - Used to remove previously granted permissions from a user.
+
+		Used when:
+			- User role changes
+			- security permissions changes
+			- user access needs restrictions
+
+		REVOKE previlege on database.table from 'user'@'host'
+
+		DROP USer
+
+--------------------
+TCL (Transaction Control Language) Statements:		
+	
+	set of SQL commands used to manage transactions in a database.
+
+	Transaction follows ACID properties
+
+		- Maintain data consistency
+		- Ensures reliability
+		- Prevents partial updates
+		- Supports error handling
+		- Enable rollback in case of failure
+
+START TRANSACTION
+
+	-- Money deducted from one account
+	-- Money added to another account
+
+COMMIT; // ROLLBACK;
+
+
+SAVEPOINT
+	creates checkpoints inside a transaction.
+
+	It allows:
+		- Partial rollback
+		- More control inside long transactions
+
+	SAVEPOINT savepoint_name;
+
+	ROLLBACK TO SAVEPOINT sp_name;
+
+		- Rollback only changes made after savepont
+		- Keeps changes before the savepoint intact
+
+	RELEASE SAVEPOINT
+		- removes a savepoint permanently
+
+	After release:
+		- cannot rollback to that savepoint
+		- savepoint name is freed
+
+
+	Notes;
+		- DDL statements cause implicit commit
+
+		DISTINCT - Removes department names
+		LIKE - search for patterns in text data
+
+				Wildcards:
+					% - Any number of characters
+					_ - Exactly one character
+
+		CASE
+			Apply conditional logic inside SELECT Query
+
+
+			select column,
+			CASE
+				WHEN condition THEN result
+				ELSE result
+
+			END as alias
+			FROM table_name;
+
+		SELECT with IF statement
+			simpler condition logic compared to CASE
+
+
+		SELECT IF (condition, true_value, false_value) as alais from table_name;
+
+		SELECT with Alias (AS)
+		 	Rename columns or expressions temporarily in result set.
+
+		 	SELECT column as alias_name from table_name;
+
+
+		SELECT with BETWEEN
+			Filter values within a range (inclusive)
+
+		Combine WHERE with other conditions
+
+
+JOINs
+	A Join is used to combine rows from two ore more tables based on related column.
+
+	In our case:
+		employees.dept_id
+		department.dept_id
+
+INNER JOIN
+	returns only those records where matching values exist in both tables.
+
+LEFT OUTER JOIN
+	- All records from LEFT table (employees)
+	- Matching records from the RIGHT table (departments)
+	- NULL where no department exist
+
+RIGHT OUTER JOIN
+	- All records from the RIGHT table (departments)
+	- Matching records from LEFT table (employees)
+	- Null where no employee exists
+
+
+FULL OUTER JOIN
+	- All employees
+	- All departments
+	- Matches where available
+	- Null where no match exist
+
+	MySQL doesn't support FULL OUTER JOIN directly
+
+	We simulate it using LEFT JOIN + RIGHT JOIN + UNION
+
+
+Cartesian JOIN (CROSS JOIN)
+	Produce every possible combination of rows from both tables.
+
+	Ex:
+		empyees table = 10 rows
+		depatments table = 4 rows
+
+		Result = 40 rows
+	= No join condition used
+	- Each employees is paird with every department
+	- Usually not desired in real applications
+
+
+--------------------------------------------------------------------------------------------------------------------------
+02/24/2026
+--------------------------------------------------------------------------------------------------------------------------
+Agenda:
+	- MySQL Fundamentals (What, Why, How, Features, Benefits, usecase)
+	- Creating and managing DB
+	- DataTypes, Operators
+	- Constraints
+	- Altering tables
+
+
+MySQL
+
+	MySQL is opensource RDBMS used to store, organize, and manage structured data efficiently.
+
+	Key Characteristics:
+		- Opensource and free to use
+		- Relational
+		- Uses SQL 
+		- Cross-platform (Windows, Linux, MacOs)
+		- Widely adopted in web and enterprise applications
+
+WHy?	
+- Free to use
+- high performent 
+- Reliable and stable - ACID
+- Scalable - 
+- Wide language and tool support  (Java/Python/Nodejs, .net...)
+
+How?
+	MySQL Follows client-server architecture
+
+	Client - Sends reqeust	
+	Server - Process those request and return resp back to the client
+
+	WHy client-server archi. is important?
+		- Multiple users can connect simultaneously
+		- Centralized data management
+		- Security and control
+		- Better for scalability
+
+
+	What is MySQL Client?
+		MySQL Client is any DB application or tool used to connect to the MySQL Server and sends SQL Commands
+
+
+		ANy tool (Workbench - GUI tool)
+		Command line tool - MySQL
+		Third party tools (Dbeaver)
+		nodejs
+		java
+		python
+		..
+		..
+
+	What is MySQL Server
+		Core software component
+			- Stores data
+			- Processes SQL Queries
+			- Manage USers and permissions
+			- ENsures data integrity and security
+
+
+			3306 - port
+			username - root
+			password - admin@123
+
+
+Recommending Naming Rules:
+	- Use Lowercase letters
+	- Use _ instead of spaces
+	- Avoid special characters
+	- Avoid using any MySQL reserved keywrods
+	- use meaningful descriptive names
+
+	Ex. employee_db
+		ecommerce_app
+
+
+	Bad names:
+		EmployeeDB
+		sales-db
+		123Db
+
+
+===========
+MySQL Data Types
+
+	- Column - type
+		- What kind of data a column can store
+		- How much storage space it will use
+
+
+Broad categories:
+	1. Numeric Data types
+
+		a. TINYINT 	- Storage: 1 byte 
+					- Range(Signed) : -128 to 128
+
+		b. SMALLINT - Storage: 2 byte
+					- Range : -32768 to 32767
+
+
+		c. MEDIUMINT 	- Storage: 3 bytes
+						- Range: -8388608 to 8388608
+
+
+		d. INT 	- Storage: 4 bytes
+				- Range: -2147483648 to 2147483648
+
+		e. BIGINT 	- Storage: 8 bytes
+					- Very large range
+
+	2. Decimal (Floating point and fixed point)
+
+		FLOAT:		- Approximate decimal values
+					- Less precise
+					- Faster calculations
+
+		DOUBLE		- More precision than Float
+					- Approximate values
+
+
+		DECIMAL 	- Exact decimal values
+					DECIMAL(10,2)			-- 55.22
+
+	3. String data types
+
+		CHAR(m)		- Fixed-length string
+					- Always occupies m characters
+
+				Ex: Country codes, 
+
+		VARCHAR(m)	- Variable-length string
+					- Uses only required space
+
+					VARCHAR(100) --> 
+
+		TEXT 		- Stores large text data
+					- Not suitable for indexing fully
+
+					Ex: blog posts, product descriptons, comments
+
+		BLOB		- Stores binary data
+					- Images, files, PDFs
+
+					TINYBLOB -
+					MEDIUMBLOB -
+					LONGBLOB -
+
+		ENUM 		- Allows a column to store one value from a predefined list
+					Ex. PLACED, SHIPPED, DELIVERED			
+
+	4. Date and Time Data types
+
+		DATE 		- Stores date only
+					- Format:  YYYY-MM-DD
+
+					Ex. DOB
+
+		TIME		- Stores time only
+					Usecase: Duration, workign hours
+
+		DATETIME 	-Stores Date and 
+					- INdependent of timezone
+
+					Ex: OrderCreationDate--
+
+		TIMESTAMP 	- Store date and time
+					- Timezone aware
+
+
+
+	5. Boolean data types
+
+		MySQL doesn't have BOOLEAN type
+		TINYINT(1) --> 0/1
+
+============================
+
+	Operators
+		Arithmatic operators: +, -, *, /, %
+
+			SELECT p.price + 100 from products p;
+
+		Comparision Operators:
+			- Compare two avalues --> return true or false
+				=, !=, >, <, >=, <=, BETWEEN (Range check), IN (Multiple value check),  LIKE, IS NULL
+
+			select * frpom products p where p.price = 1000;
+
+
+		Logical Operators
+			AND
+			OR
+			NOT
+
+			ex. select * from products where (price > 500 AND quantity>0) OR name like '%iphone%';
+
+			Order:
+				- NOT
+				- AND
+				- OR
+
+		Bitwise Operators:
+			&, ^, ~, <<,>>
+
+
+
+Constraints:
+	- PRIMARY KEY 
+	- NOT NULL
+	- UNIQUE (prevents duplicate values, allows null)
+	- DEFAULT (Assigns default value if no value is provided)
+	- CHECK (enforce condition on column values, implement business rules at db level)
+	- Foreign Key constraint
+		- Establish relationshp between tables
+		- Enforces referencial integrity
+		- Prevents orphan records
+
+	create table employees (
+		emp_id INT PRIMARY KEY,
+	    emp_name varchar(50) NOT NULL,
+	    email varchar(100) unique,
+	    age int check (age>=18),
+	    salary DECIMAL(10,2) check (salary >0),
+	    dept_id int,
+	    satus varchar(20) default 'ACTIVE',
+	    
+	    FOREIGN KEY (dept_id) references departments(dept_id)
+    );
+
+    create table departments(
+		dept_id int primary key,
+		dept_name varchar(50)
+	);
+
+
+	Alter tables:
+
+		Used to change structure of existing table without deleting the table itself.
+
+		Capability:
+			- Add new columns
+			- Modify existing columns
+			- Rename columns
+			- Delete Columns
+			- Add constraints
+
+
+		SQL:
+		create database employee_db;
+show databases;
+use employee_db;
+drop database test_db;
+
+DROP TABLE  employees;
+create table employees (
+	emp_id INT PRIMARY KEY,
+    emp_name varchar(50) NOT NULL,
+    email varchar(100) unique,
+    age int check (age>=18),
+    salary DECIMAL(10,2) check (salary >0),
+    dept_id int,
+    satus varchar(20) default 'ACTIVE',
+    
+    FOREIGN KEY (dept_id) references departments(dept_id)
+    );
+    
+create table departments(
+dept_id int primary key,
+dept_name varchar(50)
+);
+    
+    
+create table orders(
+order_id int primary key,
+status varchar(20) default 'PLACED',
+created_date DATE
+);
+    
+  desc employees;  
+
+
+
+create table employee_1(
+emp_id int primary key,
+emp_name varchar(50),
+salary decimal(10,2)
+);
+
+
+ALTER TABLE employee_1
+	add age int;
+    
+ alter table employee_1
+ add status varchar(20) default 'active';
+
+
+alter table employee_1
+rename column emp_name to employee_name;
+
+alter table employee_1
+drop age;
+
+alter table employee_1
+add primary key (emp_id);
+
+alter table employee_1
+add unique (employee_name);
+
+alter table employee_1
+modify employee_name varchar(50) not null;
+
+drop table employee_1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+02/20/2026
+--------------------------------------------------------------------------------------------------------------------------
+
+Database
+	digital filing system for application
+
+
+Data?
+	Data is raw information stored in the database
+
+Note: Data has no meaning until structure is applied
+
+Banking: 
+	10000
+	2026-02-01
+	SAVINGS
+
+Table (Structured storage)	
+
+	Table organized data into
+		- Rows (Records)
+		- Columns (field)
+
+	Schema ?
+		A schema is logical namespace that groups database objects
+
+	Large application:
+		ecommerce_db
+			auth --> users, roles
+			order --> orders, order_items
+			inventory	-- products, stocks
+
+
+	Query
+		A Query is request to the database to:
+			- Read data
+			- Insert data
+			- Update data
+			- Delete data
+
+		SQL - language to query 
+
+	Index:
+		An index is data structure that improves query speed
+
+
+	View:
+		A view is saved query that behaves like a table
+			- View doesn't stored data
+
+
+Database types:
+----------------
+
+	RDBMS
+		Stores data in:
+			- Table (rows and columns)
+			- Uses relationships (PK, FK)
+			- Consistancy (ACID property)
+
+		Data is structured and strongly consistent
+
+		Example:
+			- MySQL, PostgreSQL, Oracle, SQL Server etc
+
+
+	NoSQL Database (Non-Relational)
+
+		- Do not use fixed tables
+		- Designed for
+			- scalable
+			- Flexible
+			- High availability
+
+		Types:
+			- Key-value
+			- Document 
+			- Columnar
+			- Graph
+
+		Example:
+			- MongoDB
+			- Cassandra
+			- DynamoDB
+			- Redis (in-memory db store)
+
+	In-Memory Database
+		Stoers data directly in RAM, not disk
+
+	Distributed Database
+		Data stored
+			- Across multiple machines
+			- Across regions/ data centers
+
+		Designed for:
+			- Higher availability
+			- Fault tolerance
+			- Horizonal scalability
+
+
+	Cloud  database
+		- Managed by cloud provider
+		- No server maintainance
+		- Auto sclaling, backups
+
+	Example:
+		Amazon RDS
+		Azure SQL
+		Google Cloud SQL
+		Firebase
+
+
+	Document Database 
+		- JSON/BSON documents 
+		- Each document is self-contained 
+
+	Examples:
+		- MongoDB
+		- CouchDB
+		- Firestores
+
+
+CRUD  Operations
+	C - Creation
+	R - Read
+	U - Update
+	D - Delete
+
+
+UI --> API --> DB query on DB
+
+RDBMS
+	
+	- Data stored in rows and columns
+	- Tables are related to each other
+	- Uses SQL 
+	- Enforces data integrity rules
+	- supports transactions using ACID
+
+Features:
+	- Table based storage
+	- Relationship between tables
+
+		- ALl tables are connected using primary keys and foreign keys
+
+	- Data Integrity
+		RDBMS enforces rules that ensures
+			- No duplicate records
+			- No missing mandatory values
+			- No invalid relationships
+
+		Protects data quality at db level
+
+	- ACID compliance
+
+		A - Atomicity - All or nothing
+
+		C - Consistency - Valid state before and after	
+		I - Isolation - Transactions do not interfere
+		D - Durability - Data is permanenty saved
+
+	- Security and Access control
+
+		Ensures only authorized users can access or modify data.
+
+	- Scalability and Reliability
+		- Handles large volumes of data
+		- Supports multiple concurrent users
+		- Provide backup and recovery mechanisms
+
+
+super key:
+	 A super key is any single column or combination of columns that can uniquely identify a record in a table.
+
+	 It gurrangtee uniqueness, it is super key  
+
+	 - Uniquely identify each row
+	 - May contains one more columns
+	 - May include redundant columns
+	 - A table may have many super keys
+
+	Conceptual identification, not necessarily be implemented
+
+
+	Employee
+		employee_id, email, phone
+
+	Possible super keys:
+		- employee_id
+		- email
+		- (employee_id, emaid)
+		- (employee_id, phone)
+
+Candidate key - Minimal super key (no redundancy)
+	
+Composite key -> primary key having multiple columns
+
+
+	ERD - Entity Relationship Diagram 
+
+		Visual representation of a database design that shows:
+			- What data is stored (entities)
+			- How data is described (attributes)
+			- How data is connected (relationships)
+
+		ERD Acts as blueprint of database before it is implemented.
+
+	Why ?
+		- Helps to udnerstand business requirements
+		- Improves communication between technical and non-technical stakeholders
+		- Reduce design errors
+		- Serves as documentation for database structure
+		- Helps convert business logic into database schema.
+
+
+Key components of ERD
+	1. Entity
+		Real world object or concept that has independent existence and about which data is stored in database
+
+		Each entity ususally becomes table in database
+
+
+		Types of entity:
+			a. Strong entity
+
+				Entity that 
+					- exist independently
+					- Has its own primary key
+					- Doesn't depend on any other entity for its existance
+
+
+			b. weak entity
+
+				Entity that
+					- Cannot exist independently
+					- Depends on a strong entity for its existance
+					- Doesn't have a complete primary key on its own
+
+				Example:
+					- OrderItem (depends on Order)
+					- Invoice LI (depends on Invoice)
+
+			c. associative entity
+				Entity created to:
+					- Resolve relationships as a table
+					- contains foreign keys from participating entities
+					- may contains additional attributes
+
+				Enrollment
+				Student - Course
+
+
+				Student 		course			student_course(join table)
+												student_id course_id
+
+				Order_Product
+
+
+
+	2. Attribute
+		An Attribute is a property or characteristics that describes an entity
+
+		Examples:
+			- StudentName
+			- EmployeeSalary
+			- ProductPrice
+
+
+		Attribute becomes columns in table
+
+		1. Simple Attribute
+			- Atomic
+			- Indivisible
+			- Can not be brokendown further
+
+		Ex:
+			Age, Salary, Gender
+
+		2. Composite Attribute
+			Can be broken down into smaller sub-attributes
+
+			Name --> First Name, Last Name
+			Address --> Street, City, State, ZIP
+
+		3. Derived Attribute
+			- Calculated from another attributes
+			- Usually not stored physically
+
+		Ex: Age (derived from DOB)
+			- Total Amount (Derived from qty * price)
+
+		4. Multivalued attribute
+			- Hold multiple values for single entity
+
+			Ex. Phonenumbers (1,2,3)
+			- email_add(..,..,..)
+			- skills(..,..,..,)
+
+			Multiple attribute handling as separate table
+
+		5. Single valued atttribe
+			- Exactly one value for an entity
+
+			Ex: 
+				DOB
+				EmpId
+				SSN
+
+
+	3. Relationship
+
+		Cardinality
+			- Number of instances of one entity associated with another
+
+			1. One-One-One (1:1)
+
+				One entity is related exlactly one instance of another entity
+
+				Person - Passport
+				User - Profile
+
+
+			- Often merged into single table 
+
+			2. One-To-Many (1:M)
+				One entity is related to multiple instances of another entity
+
+				customer - Orders
+
+				Department - Employees
+
+				This is most common used
+
+			- Often managed as separate columns as FK constraint
+
+			3. Many-to-Many(M:M)
+				Multiple instances of one entity is associated with multiple instances of another entity
+
+				Student <-> Course
+				Product <-> Order
+
+			- Often manged as separate join table
+
+
+ER Models
+	
+	ER models are created different level of abstraction during database design
+
+	Each level represent specific purpose and audiance:
+
+	1. Conceptual ER Model
+		High level business view of data
+
+		Focus
+			- what data is needed, and how it stored
+
+
+
+	2. Logical ER Model
+
+			Detailed, structured view of data, while independent of any specific DBMS
+
+			converts business req -> structured data model
+			Defines Attributes, keys, relationships
+
+			Still DBMS Independent
+
+	3. Physical ER Model	
+
+			Actual implementaiton of db - specific DBMS
+
+		It transplate model attribute, entity --> table, columns and constraints in db
+
+
+
+Styles
+	1. Chen Style
+		Orinal and most academic ER modelling notation
+		
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
